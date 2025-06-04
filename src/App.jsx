@@ -7,11 +7,13 @@ import EventIndex from './components/EventIndex/EventIndex'
 import EventShow from './components/EventShow/EventShow'
 import EventUpdate from './components/EventUpdate/EventUpdate'
 import Profile from './components/Profile/Profile'
+import Navbar from './components/Navbar/Navbar'
 
 
 function App() {
   return (
     <>
+    <Navbar />
     <Routes>
       <Route path='/' element={<SignIn />} />
       <Route path='/signUp' element={<SignUp />} />
