@@ -25,6 +25,20 @@ export const getSingleEvent = async (eventId) => {
     }
 }
 
+// Create
+export const createEvent = async (formData) => {
+    try {
+        return axios.post(`${BASE_URL}/events/`, formData, {
+            headers: {
+                Authorization: `Bearer ${getToken()}`
+            }
+        })
+    } catch (error) {
+        console.log(error)
+        throw error
+    }
+}
+
 // Delete
 export const deleteEvent = async (eventId) => {
     try {

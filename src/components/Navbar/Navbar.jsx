@@ -7,7 +7,7 @@ export default function Navbar() {
                 <NavLink to='/'>Sign In</NavLink>
                 <NavLink to='/sign-up'>Sign Up</NavLink>
                 <NavLink to='/events'>Events</NavLink>
-                <NavLink to='/events/:create/update'>Create an event</NavLink>
+                <NavLink to='/events/create'>Create an event</NavLink>
                 <NavLink to='/profile'>Profile</NavLink>
             </div>
         </header>
