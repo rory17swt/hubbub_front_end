@@ -13,10 +13,11 @@ import Navbar from './components/Navbar/Navbar'
 function App() {
   return (
     <>
+    <h1>Hubbub</h1>
     <Navbar />
     <Routes>
       <Route path='/' element={<SignIn />} />
-      <Route path='/signUp' element={<SignUp />} />
+      <Route path='/sign-up' element={<SignUp />} />
       <Route path='/events' element={<EventIndex />} />
       <Route path='/events/:eventId' element={<EventShow />} />
       <Route path='/events/create' element={<EventCreate />} />
