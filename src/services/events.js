@@ -13,3 +13,14 @@ export const getAllEvents = async () => {
         throw error
     }
 }
+
+// Show
+export const getSingleEvent = async (eventId) => {
+    try {
+        const response = await axios.get(`${BASE_URL}/events/${eventId}`)
+        return response
+    } catch (error) {
+        console.log(error)
+        throw error
+    }
+}
