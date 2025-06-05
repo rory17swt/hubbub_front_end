@@ -17,8 +17,22 @@ export const getAllEvents = async () => {
 // Show
 export const getSingleEvent = async (eventId) => {
     try {
-        const response = await axios.get(`${BASE_URL}/events/${eventId}`)
+        const response = await axios.get(`${BASE_URL}/events/${eventId}/`)
         return response
+    } catch (error) {
+        console.log(error)
+        throw error
+    }
+}
+
+// Delete
+export const deleteEvent = async (eventId) => {
+    try {
+        return axios.delete(`${BASE_URL}/events/${eventId}/`, {
+            headers: {
+                Authorization: `Bearer ${getToken()}`
+            }
+        })
     } catch (error) {
         console.log(error)
         throw error
