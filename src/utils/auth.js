@@ -1,8 +1,12 @@
 const tokenName = 'itinero-token'
 
 export const setToken = (token) => {
+    if (!token) {
+        console.log('No token provided to setToken()')
+        return
+    }
     localStorage.setItem(tokenName, token)
-    console.log(token)
+    console.log('Token stored:', token)
 }
 
 export const getToken = () => {
