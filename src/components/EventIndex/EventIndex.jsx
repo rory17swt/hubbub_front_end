@@ -19,6 +19,7 @@ export default function EventIndex() {
                         <Link key={event.id} to={`/events/${event.id}`}>
                             <div className='event-card'>
                                 <h2>{event.title}</h2>
+                                <p>{event.location}</p>
                                 <p>
                                     {new Date(event.start_datetime).toLocaleString([], {
                                         day: '2-digit',
