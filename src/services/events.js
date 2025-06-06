@@ -39,6 +39,20 @@ export const createEvent = async (formData) => {
     }
 }
 
+// Update
+export const updateEvent = async (eventId, formdata) => {
+    try {
+        return axios.put(`${BASE_URL}/events/${eventId}/`, formdata, {
+            headers: {
+                Authorization: `Bearer ${getToken()}`
+            }
+        })
+    } catch (error) {
+        console.log(error)
+        throw error
+    }
+}
+
 // Delete
 export const deleteEvent = async (eventId) => {
     try {

@@ -34,7 +34,7 @@ export default function SignUp() {
             await signUp(formData)
             navigate('/')
         } catch (error) {
-            setError(error)
+            setError(error.response.data)
         } finally {
             setIsLoading(false)
         }

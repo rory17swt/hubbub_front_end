@@ -15,15 +15,12 @@ export default function EventCreate() {
         description: ''
     })
 
-    const [error, setError] = useState('')
+    const [error, setError] = useState({})
     const [isLoading, setIsLoading] = useState(false)
 
     const navigate = useNavigate()
 
-    function handleChange({ target: { name, value, type, files } }) {
-        if (type === 'file') {
-            value = files[0]
-        }
+    function handleChange({ target: { name, value } }) {
         setFormData({ ...formData, [name]: value })
     }
 
@@ -36,7 +33,7 @@ export default function EventCreate() {
             const { data } = await createEvent(dataToSend)
             navigate(`/events/${data.id}`)
         } catch (error) {
-            setError(error)
+            setError(error.response.data)
         } finally {
             setIsLoading(false)
         }

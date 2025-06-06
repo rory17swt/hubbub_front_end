@@ -2,9 +2,8 @@ import { Link, useParams } from 'react-router'
 import { getSingleEvent } from '../../services/events'
 import useFetch from '../../hooks/useFetch'
 import { UserContext } from '../../contexts/UserContext'
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
 import Spinner from '../Spinner/Spinner'
-import MovieDelete from '../EventDelete/EventDelete.jsx'
 import EventDelete from '../EventDelete/EventDelete.jsx'
 
 
@@ -48,9 +47,13 @@ export default function EventShow() {
                     </div>
 
 
-                    <div className='controls'>
-                        <EventDelete />
-                    </div>
+                    {user && event.owner && (user.id === event.owner._id || user.id === event.owner.id) && (
+                        <div className="controls">
+                            <Link className='update-movie' to={`/events/${eventId}/update`}>update</Link>
+                            <EventDelete />
+                        </div>
+                    )}
+
 
                 </section>
             )}

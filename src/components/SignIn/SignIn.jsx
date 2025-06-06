@@ -36,7 +36,7 @@ export default function SignIn() {
             setUser(getUserFromToken())
             navigate('/events')
         } catch (error) {
-            setError(error)
+            setError(error.response.data)
         } finally {
             setIsLoading(false)
         }
