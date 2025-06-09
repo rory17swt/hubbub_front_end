@@ -1,0 +1,46 @@
+.navbar {
+  background: white;
+  box-shadow: 0 2px 5px rgb(0 0 0 / 0.1);
+  padding: 0.75rem 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.navbar-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  gap: 1.8rem;
+  align-items: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: 600;
+}
+
+.nav-link {
+  color: #555;
+  text-decoration: none;
+  font-size: 1rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.nav-link:hover {
+  background-color: #ff6600;
+  color: white;
+}
+
+.nav-link.active {
+  color: #ff6600;
+  font-weight: 700;
+  border-bottom: 2px solid #ff6600;
+}
+
+@media (max-width: 768px) {
+  .navbar-container {
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+  }
+}

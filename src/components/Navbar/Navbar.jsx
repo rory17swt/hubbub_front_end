@@ -1,9 +1,10 @@
 import { NavLink } from "react-router"
+import './Navbar.css'
 
 export default function Navbar() {
     return (
-        <header>
-            <div>
+        <header className="navbar">
+            <div className="navbar-container">
                 <NavLink to='/'>Sign In</NavLink>
                 <NavLink to='/sign-up'>Sign Up</NavLink>
                 <NavLink to='/events'>Events</NavLink>

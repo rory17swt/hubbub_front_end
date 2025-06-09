@@ -1,0 +1,150 @@
+/* Container for side-by-side layout */
+.sign-in-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 3rem;
+  padding: 3rem;
+  min-height: 100vh;
+  background: #f9f9f9;
+  box-sizing: border-box;
+}
+
+/* Form section styling */
+.form-page {
+  background: #fff;
+  padding: 2.5rem 3rem;
+  border-radius: 8px;
+  box-shadow: 0 8px 20px rgb(0 0 0 / 0.1);
+  flex: 1 1 400px;
+  max-width: 450px;
+}
+
+/* About section styling */
+.about-section {
+  background: #fff;
+  padding: 2.5rem 3rem;
+  border-radius: 8px;
+  box-shadow: 0 8px 20px rgb(0 0 0 / 0.1);
+  flex: 1 1 350px;
+  max-width: 400px;
+  color: #555;
+  font-size: 1rem;
+}
+
+/* About section typography */
+.about-title h2 {
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: #1a1a1a;
+}
+
+.about-text p {
+  line-height: 1.5;
+}
+
+/* Form Title */
+.form-title {
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+  font-size: 1.5rem;
+  text-align: center;
+  color: #1a1a1a;
+}
+
+/* Input container */
+.input-control {
+  margin-bottom: 1.25rem;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Labels */
+.input-control label {
+  margin-bottom: 0.4rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+/* Inputs */
+.input-control input {
+  padding: 0.65rem 1rem;
+  font-size: 1rem;
+  border: 1.5px solid #ddd;
+  border-radius: 6px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.input-control input:focus {
+  border-color: #ff6600; /* Eventbrite orange accent */
+  box-shadow: 0 0 6px rgba(255, 102, 0, 0.5);
+  outline: none;
+}
+
+/* Submit button */
+.submit-button {
+  width: 100%;
+  padding: 0.8rem 0;
+  background-color: #ff6600; /* Eventbrite orange */
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-weight: 700;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 0.5rem;
+}
+
+.submit-button:hover:not(:disabled) {
+  background-color: #e65c00;
+}
+
+.submit-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Error messages */
+.error-message {
+  color: #cc3300;
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+  font-weight: 600;
+}
+
+/* Form footer text */
+.form-footer-text {
+  display: block;
+  margin-top: 1rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.form-footer-text a {
+  color: #ff6600;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.form-footer-text a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive: stack on small screens */
+@media (max-width: 768px) {
+  .sign-in-container {
+    flex-direction: column;
+    align-items: center;
+    padding: 1.5rem;
+  }
+
+  .form-page,
+  .about-section {
+    max-width: 100%;
+    width: 100%;
+    margin-bottom: 2rem;
+  }
+}

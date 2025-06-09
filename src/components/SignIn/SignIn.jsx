@@ -4,7 +4,7 @@ import { useState, useContext } from 'react'
 import { signIn } from "../../services/auth"
 import { setToken, getUserFromToken } from "../../utils/auth"
 import { UserContext } from "../../contexts/UserContext"
-
+import './SignIn.css'
 
 export default function SignIn() {
     // Context
@@ -18,7 +18,7 @@ export default function SignIn() {
     const [error, setError] = useState({})
     const [isLoading, setIsLoading] = useState(false)
 
-    // Varibles
+    // Variables
     const navigate = useNavigate()
 
     // Functions
@@ -44,26 +44,7 @@ export default function SignIn() {
 
     // Form
     return (
-        <>
-            <section className="about-section">
-                <div className="about-title">
-                    <h2>A Bit About Us</h2>
-                </div>
-
-                <div className="about-text">
-                    <p>
-                        Hubbub is your go-to event discovery platform, 
-                        designed to help you find and attend events. 
-                        Whether you’re looking for concerts, workshops, community gatherings,
-                         or the latest local happenings, Hubbub brings all the exciting events
-                          right to your fingertips. You can browse and share events seamlessly.
-                          Join Hubbub today and turn every moment into a memorable experience!
-                    </p>
-                </div>
-
-
-            </section>
-
+        <div className="sign-in-container">
             <section className="form-page">
                 <form onSubmit={handleSubmit} className="form">
                     <h2 className="form-title">Sign In to see all our Events!</h2>
@@ -95,11 +76,13 @@ export default function SignIn() {
                             onChange={handleChange}
                             value={formData.password}
                         />
-                        {error.password && <p className="error-message">{error.username}</p>}
+                        {error.password && <p className="error-message">{error.password}</p>}
                     </div>
 
                     {/* Submit Button */}
-                    <button className="submit-button">Sign In</button>
+                    <button className="submit-button" disabled={isLoading}>
+                        {isLoading ? "Signing In..." : "Sign In"}
+                    </button>
 
                     {/* Sign Up Link */}
                     <small className="form-footer-text">
@@ -107,7 +90,23 @@ export default function SignIn() {
                     </small>
                 </form>
             </section>
-        </>
-    )
 
+            <section className="about-section">
+                <div className="about-title">
+                    <h2>A Bit About Us</h2>
+                </div>
+
+                <div className="about-text">
+                    <p>
+                        Hubbub is your go-to event discovery platform,
+                        designed to help you find and attend events.
+                        Whether you’re looking for concerts, workshops, community gatherings,
+                        or the latest local happenings, Hubbub brings all the exciting events
+                        right to your fingertips. You can browse and share events seamlessly.
+                        Join Hubbub today and turn every moment into a memorable experience!
+                    </p>
+                </div>
+            </section>
+        </div>
+    )
 }

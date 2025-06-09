@@ -1,0 +1,97 @@
+.signup-page {
+  min-height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  background: #fff5e6; /* light warm background */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.form {
+  background: white;
+  padding: 2.5rem 3rem;
+  border-radius: 10px;
+  box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 420px;
+}
+
+.form-title {
+  margin-bottom: 2rem;
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: #ff6600;
+  text-align: center;
+}
+
+.input-control {
+  margin-bottom: 1.3rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.input-control label {
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #444;
+}
+
+.input-control input {
+  padding: 0.55rem 0.75rem;
+  border: 1.8px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.input-control input:focus {
+  border-color: #ff6600;
+  outline: none;
+}
+
+.error-message {
+  margin-top: 0.4rem;
+  font-size: 0.85rem;
+  color: #cc3300;
+}
+
+.submit-button {
+  width: 100%;
+  padding: 0.85rem;
+  background-color: #ff6600;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: 700;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.25s ease;
+}
+
+.submit-button:hover {
+  background-color: #e65500;
+}
+
+.form-footer-text {
+  margin-top: 1.2rem;
+  font-size: 0.9rem;
+  color: #666;
+  text-align: center;
+}
+
+.form-footer-text a {
+  color: #ff6600;
+  text-decoration: none;
+}
+
+.form-footer-text a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .form {
+    padding: 2rem 1.5rem;
+  }
+}

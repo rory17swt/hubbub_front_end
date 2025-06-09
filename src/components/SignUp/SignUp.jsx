@@ -1,13 +1,10 @@
 import { Link, useNavigate } from "react-router"
-import { useState, useContext, } from "react"
+import { useState } from "react"
 
 import { signUp } from "../../services/auth"
-import { UserContext } from "../../contexts/UserContext"
-
-
+import './SignUp.css'
 
 export default function SignUp() {
-    // States
     const [formData, setFormData] = useState({
         username: '',
         email: '',
@@ -18,10 +15,8 @@ export default function SignUp() {
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState({})
 
-    // Varibles
     const navigate = useNavigate()
 
-    // Form functions
     const handleChange = ({ target: { name, value } }) => {
         setFormData({ ...formData, [name]: value })
         setError({ ...error, [name]: '' })
@@ -40,9 +35,8 @@ export default function SignUp() {
         }
     }
 
-    // Form
     return (
-        <section className="form-page">
+        <section className="signup-page">
             <form onSubmit={handleSubmit} className="form">
                 <h1 className="form-title">Sign Up to Hubbub</h1>
 
@@ -58,7 +52,7 @@ export default function SignUp() {
                         onChange={handleChange}
                         value={formData.username}
                     />
-                    {error.message && <p className="error-message">{error.username}</p>}
+                    {error.username && <p className="error-message">{error.username}</p>}
                 </div>
 
                 {/* Email */}
@@ -128,5 +122,4 @@ export default function SignUp() {
             </form>
         </section>
     )
-
 }
