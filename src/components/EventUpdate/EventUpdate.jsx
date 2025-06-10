@@ -25,7 +25,10 @@ export default function EventUpdate() {
     const navigate = useNavigate()
 
     // Form Functions
-    function handleChange({ target: { name, value } }) {
+    function handleChange({ target: { name, value, type, files } }) {
+        if (type === 'file') {
+            value = files[0]
+        }
         setFormData({ ...formData, [name]: value })
     }
 
@@ -73,6 +76,7 @@ export default function EventUpdate() {
             <form className="form" onSubmit={handleSubmit}>
                 <h1 className="form-title">Update your Event</h1>
 
+                {/* Title */}
                 <div className="input-control">
                     <label htmlFor="title">Title: </label>
                     <input
@@ -86,6 +90,7 @@ export default function EventUpdate() {
                     />
                 </div>
 
+                {/* Location */}
                 <div className="input-control">
                     <label htmlFor="location">Location: </label>
                     <input
@@ -99,6 +104,7 @@ export default function EventUpdate() {
                     />
                 </div>
 
+                {/* Start_datetime */}
                 <div className="input-control">
                     <label htmlFor="start_datetime">Start date and time: </label>
                     <input
@@ -112,6 +118,7 @@ export default function EventUpdate() {
                     />
                 </div>
 
+                {/* Duration */}
                 <div className="input-control">
                     <label htmlFor="duration">Duration (HH:MM): </label>
                     <input
@@ -125,6 +132,7 @@ export default function EventUpdate() {
                     />
                 </div>
 
+                {/* Contact email */}
                 <div className="input-control">
                     <label htmlFor="contact_email">Contact Email: </label>
                     <input
@@ -138,6 +146,7 @@ export default function EventUpdate() {
                     />
                 </div>
 
+                {/* Description */}
                 <div className="input-control">
                     <label htmlFor="description">Description: </label>
                     <input
@@ -149,6 +158,19 @@ export default function EventUpdate() {
                         value={formData.description}
                         required
                     />
+                </div>
+
+                {/* Image */}
+                <div className="input-control">
+                    <label htmlFor="image">Image: </label>
+                    <input
+                        type="file"
+                        name="image"
+                        id="image"
+                        onChange={handleChange}
+                        required
+                    />
+                {error.image && <p className="error-message">{error.image}</p>}
                 </div>
 
                 <button className="submit-button">

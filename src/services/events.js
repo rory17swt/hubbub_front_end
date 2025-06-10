@@ -28,7 +28,7 @@ export const getSingleEvent = async (eventId) => {
 // Create
 export const createEvent = async (formData) => {
     try {
-        return axios.post(`${BASE_URL}/events/`, formData, {
+        return axios.postForm(`${BASE_URL}/events/`, formData, {
             headers: {
                 Authorization: `Bearer ${getToken()}`
             }
@@ -42,7 +42,7 @@ export const createEvent = async (formData) => {
 // Update
 export const updateEvent = async (eventId, formdata) => {
     try {
-        return axios.put(`${BASE_URL}/events/${eventId}/`, formdata, {
+        return axios.putForm(`${BASE_URL}/events/${eventId}/`, formdata, {
             headers: {
                 Authorization: `Bearer ${getToken()}`
             }

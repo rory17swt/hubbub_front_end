@@ -2,7 +2,7 @@ import { Link, useParams } from 'react-router'
 import { getSingleEvent } from '../../services/events'
 import useFetch from '../../hooks/useFetch'
 import { UserContext } from '../../contexts/UserContext'
-import { useContext, useState, useEffect } from 'react'
+import { useContext, useState, useEffect, use } from 'react'
 import Spinner from '../Spinner/Spinner'
 import EventDelete from '../EventDelete/EventDelete.jsx'
 import {
@@ -23,7 +23,7 @@ export default function EventShow() {
     const [questionsError, setQuestionsError] = useState(null)
 
     const [newQuestionText, setNewQuestionText] = useState('')
-    const [newResponseText, setNewResponseText] = useState({})
+    const [newResponseText, setNewResponseText] = useState('')
 
     useEffect(() => {
         async function fetchQuestions() {
@@ -43,8 +43,8 @@ export default function EventShow() {
 
 
     // Create question
-    async function handleCreateQuestion(evt) {
-        evt.preventDefault()
+    async function handleCreateQuestion(event) {
+        event.preventDefault()
         try {
             const { data } = await createQuestion(eventId, { question: newQuestionText })
             setQuestions((prev) => [...prev, data])
@@ -64,10 +64,12 @@ export default function EventShow() {
         }
     }
 
-    // Create Response
+    // Create response
     async function handleSaveResponse(questionId) {
         try {
-            const { data } = await respondToQuestion(questionId, { response: newResponseText[questionId] || '' })
+            const { data } = await respondToQuestion(questionId, {
+                response: newResponseText[questionId] || '',
+            })
             setQuestions((prev) =>
                 prev.map((q) => (q.id === questionId ? data : q))
             )
@@ -82,25 +84,11 @@ export default function EventShow() {
         try {
             const { data } = await respondToQuestion(questionId, { response: null })
             setQuestions((prev) =>
-                prev.map((q) =>
-                    q.id === questionId ? data : q
-                )
+                prev.map((q) => (q.id === questionId ? data : q))
             )
         } catch (error) {
             console.log(error.message)
         }
-    }
-
-    // Handle change
-    function handleQuestionChange(e) {
-        setNewQuestionText(e.target.value)
-    }
-
-    function handleResponseChange(e, questionId) {
-        setNewResponseText((prev) => ({
-            ...prev,
-            [questionId]: e.target.value,
-        }))
     }
 
     return (
@@ -113,6 +101,7 @@ export default function EventShow() {
                 <section className="event-show">
                     <h1 className="event-show-title">{event.title}</h1>
                     <div className="event-details">
+                        <img className='show-image' src={event.image} alt='event image' />
                         <p>{event.location}</p>
                         <p>
                             {event.start_datetime &&
@@ -136,7 +125,7 @@ export default function EventShow() {
                         </div>
                     </div>
 
-                    { user && user.id === event.owner.id && (
+                    {user && user.id === event.owner.id && (
                         <div className="controls">
                             <Link className="update-movie" to={`/events/${eventId}/update`}>
                                 update
@@ -145,7 +134,89 @@ export default function EventShow() {
                         </div>
                     )}
 
-                    
+                    {/* Ask a Question */}
+                    <section className="question">
+                        <h4 className="question-section-title">Ask a question</h4>
+                        {user ? (
+                            <form onSubmit={handleCreateQuestion} className="question-form">
+                                <textarea
+                                    name="question"
+                                    id="question"
+                                    placeholder="Ask your question..."
+                                    value={newQuestionText}
+                                    onChange={(e) => setNewQuestionText(e.target.value)}
+                                    required
+                                />
+                                <button type="submit">Submit Question</button>
+                            </form>
+                        ) : (
+                            <p>Please log in to ask a question.</p>
+                        )}
+                    </section>
+
+                    {/* Questions List */}
+                    <section className="questions-section">
+                        <h2>Questions</h2>
+                        {questionsLoading ? (
+                            <Spinner />
+                        ) : questionsError ? (
+                            <p className="error-message">{questionsError}</p>
+                        ) : questions.length === 0 ? (
+                            <p>Be the first to ask a question.</p>
+                        ) : (
+                            <ul>
+                                {questions.map((q) => (
+                                    <li key={q.id}>
+                                        {console.log(q.owner.username)}
+                                        {/* populated serializer */}
+                                        <p>{q.owner.username}: {q.question}</p>
+
+                                        {user && user.id === q.owner.id && (
+                                            <button onClick={() => handleDeleteQuestion(q.id)}>
+                                                Delete Question
+                                            </button>
+                                        )}
+
+                                        {/* Response */}
+                                        <div>
+                                            <h4>Response:</h4>
+                                            {q.response ? (
+                                                <p>{event.owner.username}: {q.response}</p>
+                                            ) : (
+                                                <p>{event.owner.username} will respond soon.</p>
+                                            )}
+
+                                            {(user && user.id === event.owner.id) ?
+                                                q.response
+                                                    ? (
+                                                        <button onClick={() => handleDeleteResponse(q.id)}>
+                                                            Delete Response
+                                                        </button>
+                                                    )
+                                                    : (
+                                                        <>
+                                                            <textarea
+                                                                rows={3}
+                                                                placeholder="Write a response..."
+                                                                value={newResponseText[q.id] || ''}
+                                                                onChange={(e) =>
+                                                                    setNewResponseText((prev) => ({ ...prev, [q.id]: e.target.value }))
+                                                                }
+                                                            />
+
+                                                            <button onClick={() => handleSaveResponse(q.id)}>
+                                                                Submit Response
+                                                            </button>
+                                                        </>
+                                                    )
+                                                : ''
+                                            }
+                                        </div>
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+                    </section>
                 </section>
             )}
         </>

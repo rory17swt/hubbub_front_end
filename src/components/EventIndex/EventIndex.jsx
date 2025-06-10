@@ -18,6 +18,9 @@ export default function EventIndex() {
                     events.map(event => (
                         <Link key={event.id} to={`/events/${event.id}`}>
                             <div className='event-card'>
+                                <div className='image'>
+                                    <img src={event.image} alt='event image' />
+                                </div>
                                 <h2>{event.title}</h2>
                                 <p>{event.location}</p>
                                 <p>

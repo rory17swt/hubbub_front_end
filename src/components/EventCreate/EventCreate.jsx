@@ -12,7 +12,8 @@ export default function EventCreate() {
         start_datetime: '',
         duration: '',
         contact_email: '',
-        description: ''
+        description: '',
+        image: ''
     })
 
     const [error, setError] = useState({})
@@ -20,7 +21,10 @@ export default function EventCreate() {
 
     const navigate = useNavigate()
 
-    function handleChange({ target: { name, value } }) {
+    function handleChange({ target: { name, value, type, files } }) {
+        if (type === 'file') {
+            value = files[0]
+        }
         setFormData({ ...formData, [name]: value })
     }
 
@@ -48,6 +52,7 @@ export default function EventCreate() {
             <form className="form" onSubmit={handleSubmit}>
                 <h1 className="form-title">Create an Event</h1>
 
+                {/* Title */}
                 <div className="input-control">
                     <label htmlFor="title">Title: </label>
                     <input
@@ -62,6 +67,7 @@ export default function EventCreate() {
                     {error.title && <p className="error-message">{error.title}</p>}
                 </div>
 
+                {/* Location */}
                 <div className="input-control">
                     <label htmlFor="location">Location: </label>
                     <input
@@ -76,6 +82,7 @@ export default function EventCreate() {
                     {error.location && <p className="error-message">{error.location}</p>}
                 </div>
 
+                {/* Start_datetime */}
                 <div className="input-control">
                     <label htmlFor="start_datetime">Start date and time: </label>
                     <input
@@ -90,6 +97,7 @@ export default function EventCreate() {
                     {error.start_datetime && <p className="error-message">{error.start_datetime}</p>}
                 </div>
 
+                {/* Duration */}
                 <div className="input-control">
                     <label htmlFor="duration">Duration (HH:MM): </label>
                     <input
@@ -104,6 +112,7 @@ export default function EventCreate() {
                     {error.duration && <p className="error-message">{error.duration}</p>}
                 </div>
 
+                {/* Conatct email */}
                 <div className="input-control">
                     <label htmlFor="contact_email">Contact Email: </label>
                     <input
@@ -118,6 +127,7 @@ export default function EventCreate() {
                     {error.contact_email && <p className="error-message">{error.contact_email}</p>}
                 </div>
 
+                {/* Description */}
                 <div className="input-control">
                     <label htmlFor="description">Description: </label>
                     <input
@@ -130,6 +140,19 @@ export default function EventCreate() {
                         required
                     />
                     {error.description && <p className="error-message">{error.description}</p>}
+                </div>
+
+                {/* Image */}
+                <div className="input-control">
+                    <label htmlFor="image">Image: </label>
+                    <input
+                        type="file"
+                        name="image"
+                        id="image"
+                        onChange={handleChange}
+                        required
+                    />
+                    {error.image && <p className="error-message">{error.image}</p>}
                 </div>
 
                 <button className="submit-button">
