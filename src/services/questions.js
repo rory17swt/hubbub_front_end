@@ -17,8 +17,8 @@ export const createQuestion = async (eventId, formData) => {
     }
 }
 
-// Update
-export const updateQuestion = async (questionId, formData) => {
+// Response
+export const respondToQuestion = async (questionId, formData) => {
     try {
         return axios.patch(`${BASE_URL}/questions/${questionId}/`, formData, {
             headers: {

@@ -8,7 +8,7 @@ import EventDelete from '../EventDelete/EventDelete.jsx'
 import {
     getQuestions,
     createQuestion,
-    updateQuestion,
+    respondToQuestion,
     deleteQuestion,
 } from '../../services/questions'
 
@@ -18,21 +18,13 @@ export default function EventShow() {
 
     const { data: event, isLoading, error } = useFetch(getSingleEvent, {}, eventId)
 
-    // Questions state
     const [questions, setQuestions] = useState([])
     const [questionsLoading, setQuestionsLoading] = useState(true)
-    const [questionsError, setQuestionsError] = useState({})
+    const [questionsError, setQuestionsError] = useState(null)
 
-    // Question input and edit state
     const [newQuestionText, setNewQuestionText] = useState('')
-    const [editingQuestionId, setEditingQuestionId] = useState(null)
-    const [editingQuestionText, setEditingQuestionText] = useState('')
+    const [newResponseText, setNewResponseText] = useState({})
 
-    // Response edit state
-    const [editingResponseId, setEditingResponseId] = useState(null)
-    const [editingResponseText, setEditingResponseText] = useState('')
-
-    // Fetch questions
     useEffect(() => {
         async function fetchQuestions() {
             setQuestionsLoading(true)
@@ -49,42 +41,14 @@ export default function EventShow() {
         if (eventId) fetchQuestions()
     }, [eventId])
 
-    // Helpers
-    function isQuestionOwner(question) {
-        return user && (user.id === question.owner.id)
-    }
-    const isEventOwner = event.owner && (user.id === event.owner.id)
 
     // Create question
     async function handleCreateQuestion(evt) {
         evt.preventDefault()
         try {
             const { data } = await createQuestion(eventId, { question: newQuestionText })
-            const created = data
-            setQuestions((prev) => [...prev, created])
+            setQuestions((prev) => [...prev, data])
             setNewQuestionText('')
-        } catch (error) {
-            console.log(error.message)
-        }
-    }
-
-    // Edit question
-    function startEditQuestion(question) {
-        setEditingQuestionId(question.id)
-        setEditingQuestionText(question.question)
-    }
-    function cancelEditQuestion() {
-        setEditingQuestionId(null)
-        setEditingQuestionText('')
-    }
-    async function saveEditQuestion(questionId) {
-        try {
-            const { data } = await updateQuestion(questionId, { question: editingQuestionText })
-            const updated = data
-            setQuestions((prev) =>
-                prev.map((q) => (q.id === questionId ? updated : q))
-            )
-            cancelEditQuestion()
         } catch (error) {
             console.log(error.message)
         }
@@ -94,48 +58,50 @@ export default function EventShow() {
     async function handleDeleteQuestion(questionId) {
         try {
             await deleteQuestion(questionId)
+            setQuestions((prev) => prev.filter((q) => q.id !== questionId))
         } catch (error) {
             console.log(error.message)
         }
     }
 
-    // Edit response
-    function startEditResponse(question) {
-        setEditingResponseId(question.id)
-        setEditingResponseText(question.response || '')
-    }
-    function cancelEditResponse() {
-        setEditingResponseId(null)
-        setEditingResponseText('')
-    }
-    async function saveEditResponse(questionId) {
+    // Create Response
+    async function handleSaveResponse(questionId) {
         try {
-            const { data } = await updateQuestion(questionId, { response: editingResponseText })
-            const updated = data
+            const { data } = await respondToQuestion(questionId, { response: newResponseText[questionId] || '' })
             setQuestions((prev) =>
-                prev.map((q) => (q.id === questionId === questionId ? updated : q))
+                prev.map((q) => (q.id === questionId ? data : q))
             )
-            cancelEditResponse()
+            setNewResponseText((prev) => ({ ...prev, [questionId]: '' }))
         } catch (error) {
             console.log(error.message)
         }
     }
 
-    // Question input field
+    // Delete response
+    async function handleDeleteResponse(questionId) {
+        try {
+            const { data } = await respondToQuestion(questionId, { response: null })
+            setQuestions((prev) =>
+                prev.map((q) =>
+                    q.id === questionId ? data : q
+                )
+            )
+        } catch (error) {
+            console.log(error.message)
+        }
+    }
+
+    // Handle change
     function handleQuestionChange(e) {
         setNewQuestionText(e.target.value)
     }
 
-    // Editing question text
-    function handleEditingQuestionChange(e) {
-        setEditingQuestionText(e.target.value)
+    function handleResponseChange(e, questionId) {
+        setNewResponseText((prev) => ({
+            ...prev,
+            [questionId]: e.target.value,
+        }))
     }
-
-    // Editing response text
-    function handleEditingResponseChange(e) {
-        setEditingResponseText(e.target.value)
-    }
-
 
     return (
         <>
@@ -170,7 +136,7 @@ export default function EventShow() {
                         </div>
                     </div>
 
-                    {isEventOwner && (
+                    { user && user.id === event.owner.id && (
                         <div className="controls">
                             <Link className="update-movie" to={`/events/${eventId}/update`}>
                                 update
@@ -179,83 +145,7 @@ export default function EventShow() {
                         </div>
                     )}
 
-                    {/* Questions Section */}
-                    <section className="questions-section">
-                        <h2>Questions</h2>
-
-                        {/* Only logged in users can create questions */}
-                        {user ? (
-                            <form onSubmit={handleCreateQuestion}>
-                                <textarea
-                                    placeholder="Ask a question..."
-                                    value={newQuestionText}
-                                    onChange={handleQuestionChange}
-                                />
-                                <button type="submit">Submit Question</button>
-                            </form>
-                        ) : (
-                            <p>Please log in to ask a question.</p>
-                        )}
-
-                        {questionsLoading ? (
-                            <Spinner />
-                        ) : questionsError ? (
-                            <p className="error-message">{questionsError}</p>
-                        ) : questions.length === 0 ? (
-                            <p>No questions yet.</p>
-                        ) : (
-                            <ul>
-                                {questions.map((q) => (
-                                    <li key={q.id}>
-                                        {editingQuestionId === (q.id) ? (
-                                            <>
-                                                <textarea
-                                                    value={editingQuestionText}
-                                                    onChange={handleEditingQuestionChange}
-                                                />
-                                                <button onClick={() => saveEditQuestion(q.id)}>Save</button>
-                                                <button onClick={cancelEditQuestion}>Cancel</button>
-                                            </>
-                                        ) : (
-                                            <>
-                                                {q.question}
-                                                {isQuestionOwner(q) && (
-                                                    <>
-                                                        <button onClick={() => startEditQuestion(q)}>Edit</button>
-                                                        <button onClick={() => handleDeleteQuestion(q.id)}>Delete</button>
-                                                    </>
-                                                )}
-                                            </>
-                                        )}
-
-                                        {/* Response Section - only for event owner */}
-                                        {isEventOwner && (
-                                            <div>
-                                                <h4>Response:</h4>
-                                                {editingResponseId === q.id ? (
-                                                    <>
-                                                        <textarea
-                                                            value={editingResponseText}
-                                                            onChange={handleEditingResponseChange}
-                                                        />
-                                                        <button onClick={() => saveEditResponse(q.id)}>Save</button>
-                                                        <button onClick={cancelEditResponse}>Cancel</button>
-                                                    </>
-                                                ) : (
-                                                    <>
-                                                        <p>{q.response}</p>
-                                                        <button onClick={() => startEditResponse(q)}>
-                                                            {q.response ? 'Edit Response' : 'Add Response'}
-                                                        </button>
-                                                    </>
-                                                )}
-                                            </div>
-                                        )}
-                                    </li>
-                                ))}
-                            </ul>
-                        )}
-                    </section>
+                    
                 </section>
             )}
         </>
