@@ -2,6 +2,7 @@ import { Link } from 'react-router'
 import useFetch from '../../hooks/useFetch'
 import { getAllEvents } from '../../services/events'
 import Spinner from '../Spinner/Spinner'
+import './EventIndex.css'
 
 export default function EventIndex() {
     const { data: events, isLoading, error } = useFetch(getAllEvents, [])
