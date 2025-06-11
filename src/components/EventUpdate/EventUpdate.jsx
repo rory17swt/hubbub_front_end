@@ -168,7 +168,6 @@ export default function EventUpdate() {
                         name="image"
                         id="image"
                         onChange={handleChange}
-                        required
                     />
                 {error.image && <p className="error-message">{error.image}</p>}
                 </div>
