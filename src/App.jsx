@@ -13,7 +13,7 @@ import Navbar from './components/Navbar/Navbar'
 function App() {
   return (
     <>
-    <h1>Hubbub</h1>
+    <h1 className='web-title'>Hubbub</h1>
     <Navbar />
     <Routes>
       <Route path='/' element={<SignIn />} />

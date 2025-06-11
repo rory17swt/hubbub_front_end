@@ -1,0 +1,13 @@
+.create-page-wrapper {
+  background: rgb(255, 245, 230);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.form-page {
+  margin: 3rem auto;
+  padding: 2rem 3rem;
+  border-radius: 8px;
+  box-shadow: 0 8px 20px rgb(0 0 0 / 0.1);
+}

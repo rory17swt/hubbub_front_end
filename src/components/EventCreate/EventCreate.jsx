@@ -3,6 +3,7 @@ import { createEvent } from "../../services/events"
 import { Navigate, useNavigate } from "react-router"
 import { UserContext } from "../../contexts/UserContext"
 import Spinner from "../Spinner/Spinner"
+import './EventCreate.css'
 
 export default function EventCreate() {
     const { user } = useContext(UserContext)
@@ -48,117 +49,119 @@ export default function EventCreate() {
     }
 
     return (
-        <section className="form-page">
-            <form className="form" onSubmit={handleSubmit}>
-                <h1 className="form-title">Create an Event</h1>
+        <div className="create-page-wrapper">
+            <section className="form-page">
+                <form className="form" onSubmit={handleSubmit}>
+                    <h1 className="form-title">Create an Event</h1>
 
-                {/* Title */}
-                <div className="input-control">
-                    <label htmlFor="title">Title: </label>
-                    <input
-                        type="text"
-                        name="title"
-                        id="title"
-                        placeholder="Title"
-                        onChange={handleChange}
-                        value={formData.title}
-                        required
-                    />
-                    {error.title && <p className="error-message">{error.title}</p>}
-                </div>
+                    {/* Title */}
+                    <div className="input-control">
+                        <label htmlFor="title">Title: </label>
+                        <input
+                            type="text"
+                            name="title"
+                            id="title"
+                            placeholder="Title"
+                            onChange={handleChange}
+                            value={formData.title}
+                            required
+                        />
+                        {error.title && <p className="error-message">{error.title}</p>}
+                    </div>
 
-                {/* Location */}
-                <div className="input-control">
-                    <label htmlFor="location">Location: </label>
-                    <input
-                        type="text"
-                        name="location"
-                        id="location"
-                        placeholder="Location"
-                        onChange={handleChange}
-                        value={formData.location}
-                        required
-                    />
-                    {error.location && <p className="error-message">{error.location}</p>}
-                </div>
+                    {/* Location */}
+                    <div className="input-control">
+                        <label htmlFor="location">Location: </label>
+                        <input
+                            type="text"
+                            name="location"
+                            id="location"
+                            placeholder="Location"
+                            onChange={handleChange}
+                            value={formData.location}
+                            required
+                        />
+                        {error.location && <p className="error-message">{error.location}</p>}
+                    </div>
 
-                {/* Start_datetime */}
-                <div className="input-control">
-                    <label htmlFor="start_datetime">Start date and time: </label>
-                    <input
-                        type="datetime-local"
-                        name="start_datetime"
-                        id="start_datetime"
-                        placeholder="Date and time"
-                        onChange={handleChange}
-                        value={formData.start_datetime}
-                        required
-                    />
-                    {error.start_datetime && <p className="error-message">{error.start_datetime}</p>}
-                </div>
+                    {/* Start_datetime */}
+                    <div className="input-control">
+                        <label htmlFor="start_datetime">Start date and time: </label>
+                        <input
+                            type="datetime-local"
+                            name="start_datetime"
+                            id="start_datetime"
+                            placeholder="Date and time"
+                            onChange={handleChange}
+                            value={formData.start_datetime}
+                            required
+                        />
+                        {error.start_datetime && <p className="error-message">{error.start_datetime}</p>}
+                    </div>
 
-                {/* Duration */}
-                <div className="input-control">
-                    <label htmlFor="duration">Duration (HH:MM): </label>
-                    <input
-                        type="text"
-                        name="duration"
-                        id="duration"
-                        placeholder="HH:MM"
-                        onChange={handleChange}
-                        value={formData.duration}
-                        required
-                    />
-                    {error.duration && <p className="error-message">{error.duration}</p>}
-                </div>
+                    {/* Duration */}
+                    <div className="input-control">
+                        <label htmlFor="duration">Duration (HH:MM): </label>
+                        <input
+                            type="text"
+                            name="duration"
+                            id="duration"
+                            placeholder="HH:MM"
+                            onChange={handleChange}
+                            value={formData.duration}
+                            required
+                        />
+                        {error.duration && <p className="error-message">{error.duration}</p>}
+                    </div>
 
-                {/* Conatct email */}
-                <div className="input-control">
-                    <label htmlFor="contact_email">Contact Email: </label>
-                    <input
-                        type="email"
-                        name="contact_email"
-                        id="contact_email"
-                        placeholder="Contact Email"
-                        onChange={handleChange}
-                        value={formData.contact_email}
-                        required
-                    />
-                    {error.contact_email && <p className="error-message">{error.contact_email}</p>}
-                </div>
+                    {/* Conatct email */}
+                    <div className="input-control">
+                        <label htmlFor="contact_email">Contact Email: </label>
+                        <input
+                            type="email"
+                            name="contact_email"
+                            id="contact_email"
+                            placeholder="Contact Email"
+                            onChange={handleChange}
+                            value={formData.contact_email}
+                            required
+                        />
+                        {error.contact_email && <p className="error-message">{error.contact_email}</p>}
+                    </div>
 
-                {/* Description */}
-                <div className="input-control">
-                    <label htmlFor="description">Description: </label>
-                    <input
-                        type="text"
-                        name="description"
-                        id="description"
-                        placeholder="What's your event about?"
-                        onChange={handleChange}
-                        value={formData.description}
-                        required
-                    />
-                    {error.description && <p className="error-message">{error.description}</p>}
-                </div>
+                    {/* Description */}
+                    <div className="input-control">
+                        <label htmlFor="description">Description: </label>
+                        <input
+                            type="text"
+                            name="description"
+                            id="description"
+                            placeholder="What's your event about?"
+                            onChange={handleChange}
+                            value={formData.description}
+                            required
+                        />
+                        {error.description && <p className="error-message">{error.description}</p>}
+                    </div>
 
-                {/* Image */}
-                <div className="input-control">
-                    <label htmlFor="image">Image: </label>
-                    <input
-                        type="file"
-                        name="image"
-                        id="image"
-                        onChange={handleChange}
-                        required
-                    />
-                    {error.image && <p className="error-message">{error.image}</p>}
-                </div>
+                    {/* Image */}
+                    <div className="input-control">
+                        <label htmlFor="image">Image: </label>
+                        <input
+                            type="file"
+                            name="image"
+                            id="image"
+                            onChange={handleChange}
+                            required
+                        />
+                        {error.image && <p className="error-message">{error.image}</p>}
+                    </div>
 
-                <button className="submit-button">
-                    {isLoading ? <Spinner /> : 'Create your event'}
-                </button>
-            </form>
-        </section>
+                    <button className="submit-button">
+                        {isLoading ? <Spinner /> : 'Create your event'}
+                    </button>
+                </form>
+            </section>
+        </div>
     )
 }

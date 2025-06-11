@@ -1,0 +1,96 @@
+.profile-page-wrapper {
+    background: rgb(255, 245, 230);
+    display: flex;
+    justify-content: center;
+    padding: 3rem 1rem;
+}
+
+.profile-page {
+    background: white;
+    padding: 2.5rem 3rem;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    max-width: 700px;
+    width: 100%;
+}
+
+.profile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.profile-header h1 {
+    font-size: 2.5rem;
+    color: rgb(51, 51, 51);
+    margin-bottom: 0;
+    letter-spacing: 1px;
+    border-bottom: 3px solid rgb(255, 127, 80);
+    padding-bottom: 0.5rem;
+}
+
+.create-link {
+    font-weight: 600;
+    color: rgb(255, 127, 80);
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border: 2px solid rgb(255, 127, 80);
+    border-radius: 6px;
+}
+
+.create-link:hover {
+    background-color: rgb(255, 127, 80);
+    color: white;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    cursor: pointer;
+}
+
+.title {
+    margin-top: 3rem;
+    font-size: 1.3rem;
+    color: rgb(51, 51, 51);
+    border-bottom: 2px solid rgb(255, 127, 80);
+}
+
+.my-events-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.event-card-link {
+    text-decoration: none;
+}
+
+.event-card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+}
+
+.event-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
+}
+
+.event-image img {
+    height: 160px;
+}
+
+.event-card h3 {
+    margin: 1rem;
+    font-size: 1.3rem;
+    color: rgb(34, 34, 34);
+}
+
+.event-card p {
+    margin: 0 1rem 1rem;
+    color: rgb(85, 85, 85);
+    font-size: 0.9rem;
+}

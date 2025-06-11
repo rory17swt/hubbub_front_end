@@ -37,89 +37,91 @@ export default function SignUp() {
 
     return (
         <section className="signup-page">
-            <form onSubmit={handleSubmit} className="form">
-                <h1 className="form-title">Sign Up to Hubbub</h1>
+            <div className="form-page">
+                <form onSubmit={handleSubmit} className="form">
+                    <h1 className="form-title">Sign Up to Hubbub</h1>
 
-                {/* Username */}
-                <div className="input-control">
-                    <label htmlFor="username">Username: </label>
-                    <input
-                        type="text"
-                        name="username"
-                        id="username"
-                        placeholder="Username"
-                        required
-                        onChange={handleChange}
-                        value={formData.username}
-                    />
-                    {error.username && <p className="error-message">{error.username}</p>}
-                </div>
+                    {/* Username */}
+                    <div className="input-control">
+                        <label htmlFor="username">Username: </label>
+                        <input
+                            type="text"
+                            name="username"
+                            id="username"
+                            placeholder="Username"
+                            required
+                            onChange={handleChange}
+                            value={formData.username}
+                        />
+                        {error.username && <p className="error-message">{error.username}</p>}
+                    </div>
 
-                {/* Email */}
-                <div className="input-control">
-                    <label htmlFor="email">Email: </label>
-                    <input
-                        type="email"
-                        name="email"
-                        id="email"
-                        placeholder="Email"
-                        required
-                        onChange={handleChange}
-                        value={formData.email}
-                    />
-                    {error.email && <p className="error-message">{error.email}</p>}
-                </div>
+                    {/* Email */}
+                    <div className="input-control">
+                        <label htmlFor="email">Email: </label>
+                        <input
+                            type="email"
+                            name="email"
+                            id="email"
+                            placeholder="Email"
+                            required
+                            onChange={handleChange}
+                            value={formData.email}
+                        />
+                        {error.email && <p className="error-message">{error.email}</p>}
+                    </div>
 
-                {/* Password */}
-                <div className="input-control">
-                    <label htmlFor="password">Password: </label>
-                    <input
-                        type="password"
-                        name="password"
-                        id="password"
-                        placeholder="Password"
-                        required
-                        onChange={handleChange}
-                        value={formData.password}
-                    />
-                    {error.password && <p className="error-message">{error.password}</p>}
-                </div>
+                    {/* Password */}
+                    <div className="input-control">
+                        <label htmlFor="password">Password: </label>
+                        <input
+                            type="password"
+                            name="password"
+                            id="password"
+                            placeholder="Password"
+                            required
+                            onChange={handleChange}
+                            value={formData.password}
+                        />
+                        {error.password && <p className="error-message">{error.password}</p>}
+                    </div>
 
-                {/* Password Confirmation */}
-                <div className="input-control">
-                    <label htmlFor="password_confirmation">Password Confirmation: </label>
-                    <input
-                        type="password"
-                        name="password_confirmation"
-                        placeholder="Password Confirmation"
-                        required
-                        onChange={handleChange}
-                        value={formData.password_confirmation}
-                    />
-                    {error.password_confirmation && <p className="error-message">{error.password_confirmation}</p>}
-                </div>
+                    {/* Password Confirmation */}
+                    <div className="input-control">
+                        <label htmlFor="password_confirmation">Password Confirmation: </label>
+                        <input
+                            type="password"
+                            name="password_confirmation"
+                            placeholder="Password Confirmation"
+                            required
+                            onChange={handleChange}
+                            value={formData.password_confirmation}
+                        />
+                        {error.password_confirmation && <p className="error-message">{error.password_confirmation}</p>}
+                    </div>
 
-                {/* Bio */}
-                <div className="input-control">
-                    <label htmlFor="bio">Bio: </label>
-                    <input
-                        type="text"
-                        name="bio"
-                        placeholder="Write a bit about yourself"
-                        onChange={handleChange}
-                        value={formData.bio}
-                    />
-                    {error.bio && <p className="error-message">{error.bio}</p>}
-                </div>
+                    {/* Bio */}
+                    <div className="input-control">
+                        <label htmlFor="bio">Bio: </label>
+                        <input
+                            type="text"
+                            name="bio"
+                            placeholder="Write a bit about yourself"
+                            onChange={handleChange}
+                            value={formData.bio}
+                        />
+                        {error.bio && <p className="error-message">{error.bio}</p>}
+                    </div>
 
-                {/* Submit Button */}
-                <button className="submit-button">Sign Up</button>
+                    {/* Submit Button */}
+                    <button className="submit-button">Sign Up</button>
 
-                {/* Sign in Link */}
-                <small className="form-footer-text">
-                    <Link to="/">Already have an account?</Link>
-                </small>
-            </form>
+                    {/* Sign in Link */}
+                    <small className="form-footer-text">
+                        <Link to="/">Already have an account?</Link>
+                    </small>
+                </form>
+            </div>
         </section>
     )
 }
