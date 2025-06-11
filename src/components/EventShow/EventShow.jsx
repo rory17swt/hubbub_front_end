@@ -84,6 +84,17 @@ export default function EventShow() {
         }
     }
 
+    function formatDuration(durationStr) {
+        const [hours, minutes] = durationStr.split(':')
+        const h = parseInt(hours, 10)
+        const m = parseInt(minutes, 10)
+
+        let result = ''
+        if (h > 0) result += `${h} hour${h > 1 ? 's' : ''} `
+        if (m > 0) result += `${m} minute${m > 1 ? 's' : ''}`
+        return result.trim() || '0 minutes'
+    }
+
     return (
         <div className="event-show-wrapper">
             <div className="event-show-container">
@@ -107,7 +118,7 @@ export default function EventShow() {
                                         minute: '2-digit',
                                     })}
                             </p>
-                            <p className="event-meta">Duration: {event.duration}</p>
+                            <p className="event-meta">Duration: {formatDuration(event.duration)}</p>
                             <p className="event-meta">
                                 Hosted by {event.owner.username}. Contact: {event.contact_email}
                             </p>

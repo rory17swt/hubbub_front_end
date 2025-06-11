@@ -72,7 +72,6 @@ export default function EventUpdate() {
         }
     }
 
-    // Load event data on mount
     useEffect(() => {
         async function getEventData() {
             setIsLoading(true)
@@ -94,7 +93,6 @@ export default function EventUpdate() {
         getEventData()
     }, [eventId])
 
-    // Cleanup preview image URL on unmount or change
     useEffect(() => {
         return () => {
             if (previewImage) URL.revokeObjectURL(previewImage)
