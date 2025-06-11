@@ -47,12 +47,17 @@ export default function Profile() {
     return (
         <section className="profile-page">
             <div className="profile-header">
-                <h1>{user?.username}'s Profile</h1>
+                <h1>{user.username}'s Profile</h1>
                 <Link to='/events/create' className='create-link'>Create an event</Link>
             </div>
 
+            <div className='bio'>
+                <h2>Bio</h2>
+                <p>{profile.bio}</p>
+            </div>
+
             <div className='title'>
-                <h2>{user?.username}'s Events</h2>
+                <h2>{user.username}'s Events</h2>
             </div>
 
             <div className='my-events-list'>
@@ -62,6 +67,9 @@ export default function Profile() {
                     myEvents.map(event => (
                         <Link key={event.id} to={`/events/${event.id}`} className='event-card-link'>
                             <div className='event-card'>
+                                <div className="event-image">
+                                    <img src={event.image} alt="event image" />
+                                </div>
                                 <h3>{event.title}</h3>
                                 <p>{event.location}</p>
                                 <p>
