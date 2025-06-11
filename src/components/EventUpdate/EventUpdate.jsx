@@ -21,41 +21,58 @@ export default function EventUpdate() {
     })
     const [error, setError] = useState({})
     const [isLoading, setIsLoading] = useState(false)
+    const [previewImage, setPreviewImage] = useState(null)
 
     // Variables
     const { eventId } = useParams()
     const navigate = useNavigate()
 
-    // Form Functions
+    function formatForDatetimeLocal(datetimeStr) {
+        const date = new Date(datetimeStr)
+        const timezoneOffsetMs = date.getTimezoneOffset() * 60000
+        const localISOTime = new Date(date.getTime() - timezoneOffsetMs).toISOString().slice(0, 16)
+        return localISOTime
+    }
+
+    function formatDurationForInput(durationStr) {
+        const [hours, minutes] = durationStr.split(':')
+        return `${hours.padStart(2, '0')}:${minutes.padStart(2, '0')}`
+    }
+
     function handleChange({ target: { name, value, type, files } }) {
         if (type === 'file') {
-            value = files[0]
+            const file = files[0]
+            if (file) {
+                setPreviewImage(URL.createObjectURL(file))
+                setFormData(prev => ({ ...prev, [name]: file }))
+            }
+        } else {
+            setFormData(prev => ({ ...prev, [name]: value }))
         }
-        setFormData({ ...formData, [name]: value })
     }
 
     async function handleSubmit(event) {
         event.preventDefault()
         setIsLoading(true)
         try {
-            await updateEvent(eventId, formData)
+            let formattedDuration = formData.duration
+            if (formattedDuration && formattedDuration.length === 5) {
+                formattedDuration = `${formattedDuration}:00`
+            }
+            const dataToSend = {
+                ...formData,
+                duration: formattedDuration
+            }
+            await updateEvent(eventId, dataToSend)
             navigate(`/events/${eventId}`)
         } catch (error) {
-            setError(error.response.data)
+            setError(error.response.data || {})
         } finally {
             setIsLoading(false)
         }
     }
 
-    function formatForDatetimeLocal(datetimeStr) {
-        const date = new Date(datetimeStr)
-        const getLocalTime = -date.getTimezoneOffset()
-        const adjustedDate = new Date(date.getTime() + getLocalTime * 60000)
-        return adjustedDate.toISOString().slice(0, 16)
-    }
-
-
-    // useEffect
+    // Load event data on mount
     useEffect(() => {
         async function getEventData() {
             setIsLoading(true)
@@ -65,7 +82,7 @@ export default function EventUpdate() {
                     title: data.title,
                     location: data.location,
                     start_datetime: formatForDatetimeLocal(data.start_datetime),
-                    duration: data.duration,
+                    duration: formatDurationForInput(data.duration),
                     contact_email: data.contact_email,
                     description: data.description,
                     image: data.image
@@ -77,11 +94,17 @@ export default function EventUpdate() {
         getEventData()
     }, [eventId])
 
+    // Cleanup preview image URL on unmount or change
+    useEffect(() => {
+        return () => {
+            if (previewImage) URL.revokeObjectURL(previewImage)
+        }
+    }, [previewImage])
+
     if (!user) {
         return <Navigate to="/" />
     }
 
-    // Form
     return (
         <div className="update-page-wrapper">
             <section className="form-page">
@@ -100,6 +123,7 @@ export default function EventUpdate() {
                             value={formData.title}
                             required
                         />
+                        {error.title && <p className="error-message">{error.title}</p>}
                     </div>
 
                     {/* Location */}
@@ -114,9 +138,10 @@ export default function EventUpdate() {
                             value={formData.location}
                             required
                         />
+                        {error.location && <p className="error-message">{error.location}</p>}
                     </div>
 
-                    {/* Start_datetime */}
+                    {/* Start datetime */}
                     <div className="input-control">
                         <label htmlFor="start_datetime">Start date and time: </label>
                         <input
@@ -128,6 +153,7 @@ export default function EventUpdate() {
                             value={formData.start_datetime}
                             required
                         />
+                        {error.start_datetime && <p className="error-message">{error.start_datetime}</p>}
                     </div>
 
                     {/* Duration */}
@@ -142,6 +168,7 @@ export default function EventUpdate() {
                             value={formData.duration}
                             required
                         />
+                        {error.duration && <p className="error-message">{error.duration}</p>}
                     </div>
 
                     {/* Contact email */}
@@ -156,6 +183,7 @@ export default function EventUpdate() {
                             value={formData.contact_email}
                             required
                         />
+                        {error.contact_email && <p className="error-message">{error.contact_email}</p>}
                     </div>
 
                     {/* Description */}
@@ -170,12 +198,13 @@ export default function EventUpdate() {
                             value={formData.description}
                             required
                         />
+                        {error.description && <p className="error-message">{error.description}</p>}
                     </div>
 
                     {/* Image */}
                     <div className="input-control">
                         <label htmlFor="image">Image: </label>
-                        <img src={formData.image} alt="event image"></img>
+                        <img src={previewImage || formData.image} alt="event preview" />
                         <input
                             type="file"
                             name="image"
