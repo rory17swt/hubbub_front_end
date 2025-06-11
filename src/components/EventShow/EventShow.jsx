@@ -2,7 +2,7 @@ import { Link, useParams } from 'react-router'
 import { getSingleEvent } from '../../services/events'
 import useFetch from '../../hooks/useFetch'
 import { UserContext } from '../../contexts/UserContext'
-import { useContext, useState, useEffect, use } from 'react'
+import { useContext, useState, useEffect } from 'react'
 import Spinner from '../Spinner/Spinner'
 import EventDelete from '../EventDelete/EventDelete.jsx'
 import {
@@ -11,6 +11,8 @@ import {
     respondToQuestion,
     deleteQuestion,
 } from '../../services/questions'
+
+import './EventShow.css'
 
 export default function EventShow() {
     const { eventId } = useParams()
@@ -23,7 +25,7 @@ export default function EventShow() {
     const [questionsError, setQuestionsError] = useState(null)
 
     const [newQuestionText, setNewQuestionText] = useState('')
-    const [newResponseText, setNewResponseText] = useState('')
+    const [newResponseText, setNewResponseText] = useState({})
 
     useEffect(() => {
         async function fetchQuestions() {
@@ -41,8 +43,6 @@ export default function EventShow() {
         if (eventId) fetchQuestions()
     }, [eventId])
 
-
-    // Create question
     async function handleCreateQuestion(event) {
         event.preventDefault()
         try {
@@ -54,7 +54,6 @@ export default function EventShow() {
         }
     }
 
-    // Delete question
     async function handleDeleteQuestion(questionId) {
         try {
             await deleteQuestion(questionId)
@@ -64,161 +63,164 @@ export default function EventShow() {
         }
     }
 
-    // Create response
     async function handleSaveResponse(questionId) {
         try {
             const { data } = await respondToQuestion(questionId, {
                 response: newResponseText[questionId] || '',
             })
-            setQuestions((prev) =>
-                prev.map((q) => (q.id === questionId ? data : q))
-            )
+            setQuestions((prev) => prev.map((q) => (q.id === questionId ? data : q)))
             setNewResponseText((prev) => ({ ...prev, [questionId]: '' }))
         } catch (error) {
             console.log(error.message)
         }
     }
 
-    // Delete response
     async function handleDeleteResponse(questionId) {
         try {
             const { data } = await respondToQuestion(questionId, { response: null })
-            setQuestions((prev) =>
-                prev.map((q) => (q.id === questionId ? data : q))
-            )
+            setQuestions((prev) => prev.map((q) => (q.id === questionId ? data : q)))
         } catch (error) {
             console.log(error.message)
         }
     }
 
     return (
-        <>
-            {error ? (
-                <p className="error-message">{error.message || error}</p>
-            ) : isLoading ? (
-                <Spinner />
-            ) : (
-                <section className="event-show">
-                    <h1 className="event-show-title">{event.title}</h1>
-                    <div className="event-details">
-                        <img className='show-image' src={event.image} alt='event image' />
-                        <p>{event.location}</p>
-                        <p>
-                            {event.start_datetime &&
-                                new Date(event.start_datetime).toLocaleString([], {
-                                    day: '2-digit',
-                                    month: '2-digit',
-                                    year: 'numeric',
-                                    hour: '2-digit',
-                                    minute: '2-digit',
-                                })}
-                        </p>
-                        <p>Duration: {event.duration}</p>
-                        <p>
-                            This Event was created by {event.owner.username}. You can contact them
-                            at {event.contact_email} about any queries or ask a question below.
-                        </p>
+        <div className="event-show-wrapper">
+            <div className="event-show-container">
+                {error ? (
+                    <p className="error-message">{error.message || error}</p>
+                ) : isLoading ? (
+                    <Spinner />
+                ) : (
+                    <>
+                        <h1 className="page-title">{event.title}</h1>
+                        <div className="event-content">
+                            <img className="show-image" src={event.image} alt="event" />
+                            <p className="event-meta">{event.location}</p>
+                            <p className="event-meta">
+                                {event.start_datetime &&
+                                    new Date(event.start_datetime).toLocaleString([], {
+                                        day: '2-digit',
+                                        month: '2-digit',
+                                        year: 'numeric',
+                                        hour: '2-digit',
+                                        minute: '2-digit',
+                                    })}
+                            </p>
+                            <p className="event-meta">Duration: {event.duration}</p>
+                            <p className="event-meta">
+                                Hosted by {event.owner.username}. Contact: {event.contact_email}
+                            </p>
+                            <div className="event-description">
+                                <h2>About this Event</h2>
+                                <p>{event.description}</p>
+                            </div>
 
-                        <div className="event-description">
-                            <h2>About this Event</h2>
-                            <p>{event.description}</p>
+                            {user && user.id === event.owner.id && (
+                                <div className="event-controls">
+                                    <Link className="update-link" to={`/events/${eventId}/update`}>
+                                        Update
+                                    </Link>
+                                    <EventDelete />
+                                </div>
+                            )}
                         </div>
-                    </div>
 
-                    {user && user.id === event.owner.id && (
-                        <div className="controls">
-                            <Link className="update-movie" to={`/events/${eventId}/update`}>
-                                update
-                            </Link>
-                            <EventDelete />
-                        </div>
-                    )}
+                        <section className="question-section">
+                            <h2>Ask a Question</h2>
+                            {user ? (
+                                <form onSubmit={handleCreateQuestion} className="question-form">
+                                    <textarea
+                                        placeholder="Ask your question..."
+                                        value={newQuestionText}
+                                        onChange={(e) => setNewQuestionText(e.target.value)}
+                                        required
+                                    />
+                                    <button type="submit" className="btn-submit">
+                                        Submit
+                                    </button>
+                                </form>
+                            ) : (
+                                <p>Please log in to ask a question.</p>
+                            )}
+                        </section>
 
-                    {/* Ask a Question */}
-                    <section className="question">
-                        <h4 className="question-section-title">Ask a question</h4>
-                        {user ? (
-                            <form onSubmit={handleCreateQuestion} className="question-form">
-                                <textarea
-                                    name="question"
-                                    id="question"
-                                    placeholder="Ask your question..."
-                                    value={newQuestionText}
-                                    onChange={(e) => setNewQuestionText(e.target.value)}
-                                    required
-                                />
-                                <button type="submit">Submit Question</button>
-                            </form>
-                        ) : (
-                            <p>Please log in to ask a question.</p>
-                        )}
-                    </section>
-
-                    {/* Questions List */}
-                    <section className="questions-section">
-                        <h2>Questions</h2>
-                        {questionsLoading ? (
-                            <Spinner />
-                        ) : questionsError ? (
-                            <p className="error-message">{questionsError}</p>
-                        ) : questions.length === 0 ? (
-                            <p>Be the first to ask a question.</p>
-                        ) : (
-                            <ul>
-                                {questions.map((q) => (
-                                    <li key={q.id}>
-                                        {console.log(q.owner.username)}
-                                        {/* populated serializer */}
-                                        <p>{q.owner.username}: {q.question}</p>
-
-                                        {user && user.id === q.owner.id && (
-                                            <button onClick={() => handleDeleteQuestion(q.id)}>
-                                                Delete Question
-                                            </button>
-                                        )}
-
-                                        {/* Response */}
-                                        <div>
-                                            <h4>Response:</h4>
-                                            {q.response ? (
-                                                <p>{event.owner.username}: {q.response}</p>
-                                            ) : (
-                                                <p>{event.owner.username} will respond soon.</p>
+                        <section className="question-list">
+                            <h2>Questions</h2>
+                            {questionsLoading ? (
+                                <Spinner />
+                            ) : questionsError ? (
+                                <p className="error-message">{questionsError}</p>
+                            ) : questions.length === 0 ? (
+                                <p>No questions yet.</p>
+                            ) : (
+                                <ul>
+                                    {questions.map((q) => (
+                                        <li key={q.id} className="question-item">
+                                            <h3>Question</h3>
+                                            <p>
+                                                <strong>{q.owner.username}</strong>: {q.question}
+                                            </p>
+                                            {user && user.id === q.owner.id && (
+                                                <button
+                                                    className="btn-delete btn-small"
+                                                    onClick={() => handleDeleteQuestion(q.id)}
+                                                >
+                                                    Delete
+                                                </button>
                                             )}
 
-                                            {(user && user.id === event.owner.id) ?
-                                                q.response
-                                                    ? (
-                                                        <button onClick={() => handleDeleteResponse(q.id)}>
-                                                            Delete Response
-                                                        </button>
-                                                    )
-                                                    : (
-                                                        <>
-                                                            <textarea
-                                                                rows={3}
-                                                                placeholder="Write a response..."
-                                                                value={newResponseText[q.id] || ''}
-                                                                onChange={(e) =>
-                                                                    setNewResponseText((prev) => ({ ...prev, [q.id]: e.target.value }))
-                                                                }
-                                                            />
+                                            <div className="response-section">
+                                                <h3>Response</h3>
+                                                {q.response ? (
+                                                    <p>
+                                                        <strong>{event.owner.username}</strong>: {q.response}
+                                                    </p>
+                                                ) : (
+                                                    <p>{event.owner.username} will respond soon.</p>
+                                                )}
 
-                                                            <button onClick={() => handleSaveResponse(q.id)}>
-                                                                Submit Response
+                                                {user && user.id === event.owner.id && (
+                                                    <>
+                                                        {q.response ? (
+                                                            <button
+                                                                className="btn-delete btn-small"
+                                                                onClick={() => handleDeleteResponse(q.id)}
+                                                            >
+                                                                Delete Response
                                                             </button>
-                                                        </>
-                                                    )
-                                                : ''
-                                            }
-                                        </div>
-                                    </li>
-                                ))}
-                            </ul>
-                        )}
-                    </section>
-                </section>
-            )}
-        </>
+                                                        ) : (
+                                                            <>
+                                                                <textarea
+                                                                    rows={3}
+                                                                    placeholder="Write a response..."
+                                                                    value={newResponseText[q.id] || ''}
+                                                                    onChange={(e) =>
+                                                                        setNewResponseText((prev) => ({
+                                                                            ...prev,
+                                                                            [q.id]: e.target.value,
+                                                                        }))
+                                                                    }
+                                                                />
+                                                                <button
+                                                                    className="btn-submit"
+                                                                    onClick={() => handleSaveResponse(q.id)}
+                                                                >
+                                                                    Submit Response
+                                                                </button>
+                                                            </>
+                                                        )}
+                                                    </>
+                                                )}
+                                            </div>
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
+                        </section>
+                    </>
+                )}
+            </div>
+        </div>
     )
 }

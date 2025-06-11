@@ -2,6 +2,7 @@ import { useState } from "react"
 import { deleteEvent } from "../../services/events"
 import { useNavigate, useParams } from "react-router"
 import Spinner from '../Spinner/Spinner'
+import './EventDelete.css'
 
 export default function EventDelete() {
   // State
@@ -27,9 +28,9 @@ export default function EventDelete() {
 
   
   return (
-    <div className="event-delete">
+    <div>
       {error && <p>{error}</p>}
-      <button onClick={handleDelete}>
+      <button className="delete-button" onClick={handleDelete}>
         {isLoading ? <Spinner /> : 'Delete'}
       </button>
     </div>
