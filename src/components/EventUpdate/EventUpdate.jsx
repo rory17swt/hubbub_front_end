@@ -15,7 +15,8 @@ export default function EventUpdate() {
         start_datetime: '',
         duration: '',
         contact_email: '',
-        description: ''
+        description: '',
+        image: ''
     })
     const [error, setError] = useState({})
     const [isLoading, setIsLoading] = useState(false)
@@ -45,6 +46,14 @@ export default function EventUpdate() {
         }
     }
 
+    function formatForDatetimeLocal(datetimeStr) {
+    const date = new Date(datetimeStr)
+    const getLocalTime = -date.getTimezoneOffset()
+    const adjustedDate = new Date(date.getTime() + getLocalTime * 60000)
+    return adjustedDate.toISOString().slice(0, 16)
+}
+
+
     // useEffect
     useEffect(() => {
         async function getEventData() {
@@ -54,10 +63,11 @@ export default function EventUpdate() {
                 setFormData({
                     title: data.title,
                     location: data.location,
-                    start_datetime: data.start_datetime,
+                    start_datetime: formatForDatetimeLocal(data.start_datetime),
                     duration: data.duration,
                     contact_email: data.contact_email,
-                    description: data.description
+                    description: data.description,
+                    image: data.image
                 })
             } finally {
                 setIsLoading(false)
@@ -163,6 +173,7 @@ export default function EventUpdate() {
                 {/* Image */}
                 <div className="input-control">
                     <label htmlFor="image">Image: </label>
+                    <img src={formData.image} alt="event image"></img>
                     <input
                         type="file"
                         name="image"
