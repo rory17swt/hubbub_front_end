@@ -53,10 +53,12 @@ export default function Profile() {
                     <Link to='/events/create' className='create-link'>Create an event</Link>
                 </div>
 
-                <div className='bio'>
-                    <h2>Bio</h2>
-                    <p>{profile.bio}</p>
-                </div>
+                {profile.bio && (
+                    <div className="bio">
+                        <h2>Bio</h2>
+                        <p>{profile.bio}</p>
+                    </div>
+                )}
 
                 <div className='title'>
                     <h2>{user.username}'s Events</h2>

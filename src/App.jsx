@@ -1,4 +1,5 @@
 import { Routes, Route } from 'react-router'
+import './App.css'
 
 import EventCreate from './components/EventCreate/EventCreate'
 import SignIn from './components/SignIn/SignIn'
@@ -9,11 +10,10 @@ import EventUpdate from './components/EventUpdate/EventUpdate'
 import Profile from './components/Profile/Profile'
 import Navbar from './components/Navbar/Navbar'
 
-
 function App() {
   return (
     <>
-    <h1 className='web-title'>Hubbub</h1>
+    <h1 className='web-title'>HUBBUB</h1>
     <Navbar />
     <Routes>
       <Route path='/' element={<SignIn />} />

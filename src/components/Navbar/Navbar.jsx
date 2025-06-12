@@ -18,7 +18,7 @@ export default function Navbar() {
     return (
         <header className="navbar">
             <nav className="navbar-container">
-                <NavLink to="/events" className={getNavLinkClass}>
+                <NavLink to="/events" end className={getNavLinkClass}>
                     Events
                 </NavLink>
 

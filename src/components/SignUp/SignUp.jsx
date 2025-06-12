@@ -102,7 +102,7 @@ export default function SignUp() {
 
                     {/* Bio */}
                     <div className="input-control">
-                        <label htmlFor="bio">Bio: </label>
+                        <label htmlFor="bio">Bio (not required): </label>
                         <input
                             type="text"
                             name="bio"
