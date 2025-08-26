@@ -70,7 +70,7 @@ I also made a clear distinction between routes accessible to all users and those
 
 To support the back-end structure, I created a Database Design (DBD) diagram that maps out the relationships between the models in my application:
 
-(DBD diagram)
+![DBD Diagram Image](images/Hubbub%20-%20DBD%20Diagram.png)
  
 In this diagram, I’ve outlined several key one-to-many relationships: Users to Events, Users to Questions and Events to Questions.
 
