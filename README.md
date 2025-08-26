@@ -62,7 +62,7 @@ For this project, we were tasked with building a Django application with full CR
 ## Planning:
 I first designed my wireframes:
 
-![Wireframe_image](images/Huubub%20Wireframes.png)
+![Wireframe_image](images/Project%204%20-%20Huubub%20Wireframes.png)
  
 I created wireframes to visualise the different user flows and routes within the app, which helped streamline the development process.
 
